@@ -6,11 +6,25 @@
 
 char **reconstruct_trip(Ticket **tickets, int length)
 {
-  HashTable *ht = create_hash_table(length);
+  HashTable *ht = create_hash_table(16);
   char **route = malloc(length * sizeof(char *));
-
-  /* YOUR CODE HERE */
-
+  // looping through tickets and storing entries into ht with the source as the key
+  for (int i = 0; i < length; i++)
+  {
+    hash_table_insert(ht, tickets[i]->destination, tickets[i]->source);
+  }
+  // initializing destination as NONE
+  char *destination = "NONE";
+  // looping backwards through route and assigning it the value of destination
+  for (int i = length - 1; i >= 0; i--)
+  {
+    route[i] = destination;
+    // assign destination as the destination's source
+    destination = hash_table_retrieve(ht, destination);
+  }
+  // freeing up ht allocated memory
+  destroy_hash_table(ht);
+  // returning flight route
   return route;
 }
 
