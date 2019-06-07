@@ -13,6 +13,9 @@ A     B     result
 1     0       T
 1     1       T
 ```
+for A in [False, True]:
+  for B in [False, True]:
+  print(f"{A} - {B} - {A or not B}")
 
 2. `(¬A ∨ B) ∧ ¬(A ∧ ¬B)`   (alternate: `(!A || B) && !(A && !B)`)
 ```
