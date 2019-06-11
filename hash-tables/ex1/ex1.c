@@ -6,17 +6,50 @@
 Answer *get_indices_of_item_weights(int *weights, int length, int limit)
 {
   HashTable *ht = create_hash_table(16);
-
-  /* YOUR CODE HERE */
-
+  // allocating memory for answer and setting fields to default
+  Answer *answer = malloc(sizeof(Answer));
+  answer->index_1 = -1;
+  answer->index_2 = -1;
+  // looping through weights array and storing the weight and index in the hashtable
+  for (int i = 0; i < length; i++)
+  {
+    hash_table_insert(ht, weights[i], i);
+  }
+  // looping through weights array again
+  for (int i = 0; i < length; i++)
+  {
+    // checking if the limit can be reached through addition of weights in the hashtable
+    if (hash_table_retrieve(ht, limit - weights[i]) != -1)
+    {
+      // if the smaller index index_2 is null, assign it to i (index in weights array)
+      if (answer->index_2 == -1)
+      {
+        answer->index_2 = i;
+      }
+      // if the smaller index is already full, then assign index_1 to i
+      else
+      {
+        answer->index_1 = i;
+      }
+    }
+  }
+  // freeing up hashtable memory
+  destroy_hash_table(ht);
+  // returning answer if the values of index_1 and 2 are filled
+  if (answer->index_1 != -1)
+    return answer;
+  // returning null if nothing adds to the limit
   return NULL;
 }
 
 void print_answer(Answer *answer)
 {
-  if (answer != NULL) {
+  if (answer != NULL)
+  {
     printf("%d %d\n", answer->index_1, answer->index_2);
-  } else {
+  }
+  else
+  {
     printf("NULL\n");
   }
 }
